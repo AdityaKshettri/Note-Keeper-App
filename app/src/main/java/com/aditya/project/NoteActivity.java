@@ -17,7 +17,8 @@ import java.util.List;
 
 public class NoteActivity extends AppCompatActivity {
 
-    public static final String NOTE_INFO = "com.aditya.project.NOTE_INFO";
+    public static final String NOTE_POSITION = "com.aditya.project.NOTE_POSITION";
+    public static final int POSITION_NOT_SET = -1;
 
     private ActivityNoteBinding binding;
     private NoteInfo mNote;
@@ -61,7 +62,10 @@ public class NoteActivity extends AppCompatActivity {
 
     private void readDisplayStateValue() {
         Intent intent = getIntent();
-        mNote = intent.getParcelableExtra(NOTE_INFO);
-        mIsNewNote = mNote == null;
+        int position = intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET);
+        mIsNewNote = position == POSITION_NOT_SET;
+        if (!mIsNewNote) {
+            mNote = DataManager.getInstance().getNotes().get(position);
+        }
     }
 }
