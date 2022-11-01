@@ -4,12 +4,24 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public final class NoteInfo implements Parcelable {
+    public static final Parcelable.Creator<NoteInfo> CREATOR =
+            new Parcelable.Creator<NoteInfo>() {
+                @Override
+                public NoteInfo createFromParcel(Parcel source) {
+                    return new NoteInfo(source);
+                }
+
+                @Override
+                public NoteInfo[] newArray(int size) {
+                    return new NoteInfo[size];
+                }
+            };
     private CourseInfo mCourse;
     private String mTitle;
     private String mText;
     private int mId;
 
-    public NoteInfo(int id,CourseInfo course, String title, String text) {
+    public NoteInfo(int id, CourseInfo course, String title, String text) {
         mCourse = course;
         mTitle = title;
         mText = text;
@@ -20,11 +32,15 @@ public final class NoteInfo implements Parcelable {
 
         mCourse = source.readParcelable(CourseInfo.class.getClassLoader());
         mTitle = source.readString();
-        mText  = source.readString();
+        mText = source.readString();
     }
 
     public CourseInfo getCourse() {
         return mCourse;
+    }
+
+    public void setCourse(CourseInfo course) {
+        mCourse = course;
     }
 
     public int getId() {
@@ -33,10 +49,6 @@ public final class NoteInfo implements Parcelable {
 
     public void setId(int id) {
         mId = id;
-    }
-
-    public void setCourse(CourseInfo course) {
-        mCourse = course;
     }
 
     public String getTitle() {
@@ -86,24 +98,9 @@ public final class NoteInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-
         parcel.writeParcelable(mCourse, 0);
         parcel.writeString(mTitle);
         parcel.writeString(mText);
 
     }
-
-    public static final Parcelable.Creator<NoteInfo> CREATOR =
-            new Parcelable.Creator<NoteInfo>(){
-
-                @Override
-                public NoteInfo createFromParcel(Parcel source) {
-                    return new NoteInfo(source);
-                }
-
-                @Override
-                public NoteInfo[] newArray(int size) {
-                    return new NoteInfo[size];
-                }
-            };
 }

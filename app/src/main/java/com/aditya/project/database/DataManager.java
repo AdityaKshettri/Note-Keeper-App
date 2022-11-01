@@ -14,13 +14,7 @@ public class DataManager {
     private List<CourseInfo> mCourses = new ArrayList<>();
     private List<NoteInfo> mNotes = new ArrayList<>();
 
-    public static DataManager getInstance() {
-        if (ourInstance == null) {
-            ourInstance = new DataManager();
-            ourInstance.initializeCourses();
-            ourInstance.initializeExampleNotes();
-        }
-        return ourInstance;
+    private DataManager() {
     }
 
 //    public void loadFromDatabase(NoteKeeperOpenHelper openHelper) {
@@ -93,6 +87,15 @@ public class DataManager {
 //        coursesCursor.close();
 //    }
 
+    public static DataManager getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new DataManager();
+            ourInstance.initializeCourses();
+            ourInstance.initializeExampleNotes();
+        }
+        return ourInstance;
+    }
+
     public List<NoteInfo> getNotes() {
         return mNotes;
     }
@@ -100,14 +103,14 @@ public class DataManager {
     public int createNewNote() {
         int noteSize = mNotes.size();
 
-        NoteInfo note = new NoteInfo(noteSize,null, null, null);
+        NoteInfo note = new NoteInfo(noteSize, null, null, null);
         mNotes.add(note);
         return mNotes.size() - 1;
     }
 
     public int findNote(NoteInfo note) {
-        for(int index = 0; index < mNotes.size(); index++) {
-            if(note.equals(mNotes.get(index)))
+        for (int index = 0; index < mNotes.size(); index++) {
+            if (note.equals(mNotes.get(index)))
                 return index;
         }
 
@@ -132,8 +135,8 @@ public class DataManager {
 
     public List<NoteInfo> getNotes(CourseInfo course) {
         ArrayList<NoteInfo> notes = new ArrayList<>();
-        for(NoteInfo note:mNotes) {
-            if(course.equals(note.getCourse()))
+        for (NoteInfo note : mNotes) {
+            if (course.equals(note.getCourse()))
                 notes.add(note);
         }
         return notes;
@@ -141,14 +144,11 @@ public class DataManager {
 
     public int getNoteCount(CourseInfo course) {
         int count = 0;
-        for(NoteInfo note:mNotes) {
-            if(course.equals(note.getCourse()))
+        for (NoteInfo note : mNotes) {
+            if (course.equals(note.getCourse()))
                 count++;
         }
         return count;
-    }
-
-    private DataManager() {
     }
 
     public void initializeExampleNotes() {
@@ -158,7 +158,7 @@ public class DataManager {
         course.getModule("android_intents_m01").setComplete(true);
         course.getModule("android_intents_m02").setComplete(true);
         course.getModule("android_intents_m03").setComplete(true);
-        mNotes.add(new NoteInfo(1,course, "Dynamic intent resolution",
+        mNotes.add(new NoteInfo(1, course, "Dynamic intent resolution",
                 "Wow, intents allow components to be resolved at runtime"));
         mNotes.add(new NoteInfo(2, course, "Delegating intents",
                 "PendingIntents are powerful; they delegate much more than just a component invocation"));
