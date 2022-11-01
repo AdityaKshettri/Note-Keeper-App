@@ -3,12 +3,16 @@ package com.aditya.project;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.aditya.project.database.DataManager;
 import com.aditya.project.databinding.ActivityNoteBinding;
-import com.google.android.material.snackbar.Snackbar;
+import com.aditya.project.model.CourseInfo;
+
+import java.util.List;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -23,13 +27,12 @@ public class NoteActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        Spinner spinnerCourses = findViewById(R.id.spinner_courses);
+
+        List<CourseInfo> courses = DataManager.getInstance().getCourses();
+        ArrayAdapter<CourseInfo> adapterCourses = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courses);
+        adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCourses.setAdapter(adapterCourses);
     }
 
     @Override
